@@ -1,0 +1,31 @@
+ lib/memcache.rb        |    1 -
+ test/test_mem_cache.rb |    6 ------
+ 2 files changed, 0 insertions(+), 7 deletions(-)
+
+diff --git a/lib/memcache.rb b/lib/memcache.rb
+index 89c6983..f249da7 100644
+--- a/lib/memcache.rb
++++ b/lib/memcache.rb
+@@ -1105,4 +1105,3 @@ module Continuum
+   end
+ 
+ end
+-require 'continuum_native'
+diff --git a/test/test_mem_cache.rb b/test/test_mem_cache.rb
+index 2f1fc33..afd29ec 100644
+--- a/test/test_mem_cache.rb
++++ b/test/test_mem_cache.rb
+@@ -2,13 +2,7 @@
+ require 'logger'
+ require 'stringio'
+ require 'test/unit'
+-require 'rubygems'
+-begin
+-  gem 'flexmock'
+   require 'flexmock/test_unit'
+-rescue LoadError => e
+-  puts "Some tests require flexmock, please run `gem install flexmock`"
+-end
+ 
+ Thread.abort_on_exception = true
+ $TESTING = true
