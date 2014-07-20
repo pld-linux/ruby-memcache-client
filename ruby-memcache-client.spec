@@ -2,7 +2,7 @@
 Summary:	A library to access memcache
 Name:		ruby-%{pkgname}
 Version:	1.7.5
-Release:	1
+Release:	2
 License:	Ruby's
 Group:		Development/Languages
 Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
