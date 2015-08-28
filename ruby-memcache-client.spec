@@ -3,20 +3,16 @@ Summary:	A library to access memcache
 Name:		ruby-%{pkgname}
 Version:	1.7.5
 Release:	3
-License:	Ruby's
+License:	GPL v2+ or Ruby
 Group:		Development/Languages
 Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
 # Source0-md5:	d93a84ea4d0374bb999277970cccaa35
 Patch0:		%{name}-cleanup.patch
 URL:		http://seattlerb.rubyforge.org/memcache-client/
-BuildRequires:	rpmbuild(macros) >= 1.484
-BuildRequires:	ruby >= 1:1.8.6
-BuildRequires:	ruby-modules
-%{?ruby_mod_ver_requires_eq}
+BuildRequires:	rpm-rubyprov
+BuildRequires:	rpmbuild(macros) >= 1.665
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# nothing to be placed there. we're not noarch only because of ruby packaging
-%define		_enable_debug_packages	0
 
 %description
 A Ruby library for accessing memcached.
@@ -46,28 +42,31 @@ ri documentation for %{pkgname}.
 Dokumentacji w formacie ri dla %{pkgname}.
 
 %prep
-%setup -q -c
-%{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
-find -newer README.rdoc -o -print | xargs touch --reference %{SOURCE0}
+%setup -q
 %patch0 -p1
 
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
+# write .gemspec
+%__gem_helper spec
+
 rdoc --op rdoc lib
 rdoc --ri --op ri lib
-rm ri/created.rid
 rm -r ri/Continuum
+rm ri/created.rid
+rm ri/cache.ri
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}}
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir},%{ruby_ridir},%{ruby_rdocdir}}
 
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
-rm $RPM_BUILD_ROOT%{ruby_rubylibdir}/continuum_native.rb
+rm $RPM_BUILD_ROOT%{ruby_vendorlibdir}/continuum_native.rb
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -75,7 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc FAQ.rdoc History.rdoc README.rdoc
-%{ruby_rubylibdir}/memcache.rb
+%{ruby_vendorlibdir}/memcache.rb
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %files rdoc
 %defattr(644,root,root,755)
