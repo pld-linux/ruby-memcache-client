@@ -1,18 +1,19 @@
 %define pkgname memcache-client
 Summary:	A library to access memcache
 Name:		ruby-%{pkgname}
-Version:	1.7.5
-Release:	4
-License:	GPL v2+ or Ruby
-Group:		Development/Languages
-Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	d93a84ea4d0374bb999277970cccaa35
-Patch0:		%{name}-cleanup.patch
-URL:		http://seattlerb.rubyforge.org/memcache-client/
-BuildRequires:	rpm-rubyprov
-BuildRequires:	rpmbuild(macros) >= 1.665
-BuildArch:	noarch
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Version:        1.8.5
+Release:        1
+License:        GPL v2+ or Ruby
+Group:          Development/Languages
+Source0:        http://rubygems.org/downloads/%{pkgname}-%{version}.gem
+# Source0-md5:  56b56663c73d64ba6cee05d563083078
+Patch0:         %{name}-cleanup.patch
+URL:            https://github.com/seattlerb/memcache-client
+BuildRequires:  rpm-rubyprov
+BuildRequires:  rpmbuild(macros) >= 1.665
+BuildArch:      noarch
+BuildRoot:      %{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
 
 %description
 A Ruby library for accessing memcached.
@@ -42,7 +43,7 @@ ri documentation for %{pkgname}.
 Dokumentacji w formacie ri dla %{pkgname}.
 
 %prep
-%setup -q
+%setup -q -n %{pkgname}-%{version}
 %patch -P0 -p1
 
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -75,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc FAQ.rdoc History.rdoc README.rdoc
 %{ruby_vendorlibdir}/memcache.rb
+%{ruby_vendorlibdir}/memcache
+%{ruby_vendorlibdir}/memcache_util.rb
 %{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %files rdoc
@@ -83,4 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files ri
 %defattr(644,root,root,755)
+%{ruby_ridir}/Cache
+%{ruby_ridir}/EM
 %{ruby_ridir}/MemCache
+%{ruby_ridir}/Object
