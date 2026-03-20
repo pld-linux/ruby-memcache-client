@@ -2,7 +2,7 @@
 Summary:	A library to access memcache
 Name:		ruby-%{pkgname}
 Version:        1.8.5
-Release:        1
+Release:        2
 License:        GPL v2+ or Ruby
 Group:          Development/Languages
 Source0:        http://rubygems.org/downloads/%{pkgname}-%{version}.gem
@@ -46,7 +46,7 @@ Dokumentacji w formacie ri dla %{pkgname}.
 %setup -q -n %{pkgname}-%{version}
 %patch -P0 -p1
 
-find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm
 
 %build
 # write .gemspec
